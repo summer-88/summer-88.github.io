@@ -1,0 +1,614 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon.png">
+  <link rel="icon" href="/img/icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="夏天">
+  <meta name="keywords" content="">
+  <meta name="description" content="package com.qujie.mintwo.system.wechatpay;  import com.alibaba.fastjson.JSON; import com.qujie.mintwo.config.WechatConfig; import com.wechat.pay.contrib.apache.httpclient.Validator; import com.wechat.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微信支付代码">
+<meta property="og:url" content="https://summer-88.github.io/2021/11/29/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98%E4%BB%A3%E7%A0%81/index.html">
+<meta property="og:site_name" content="夏天的博客">
+<meta property="og:description" content="package com.qujie.mintwo.system.wechatpay;  import com.alibaba.fastjson.JSON; import com.qujie.mintwo.config.WechatConfig; import com.wechat.pay.contrib.apache.httpclient.Validator; import com.wechat.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-11-29T03:23:07.000Z">
+<meta property="article:modified_time" content="2022-06-17T08:53:14.319Z">
+<meta property="article:author" content="夏天">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>微信支付代码 - 夏天的博客</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/night-owl.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"summer-88.github.io","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>夏天的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/pages.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="微信支付代码">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-11-29 11:23" pubdate>
+        2021年11月29日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      7k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      22 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">微信支付代码</h1>
+            
+            <div class="markdown-body">
+              <div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.qujie.mintwo.system.wechatpay;
+
+<span class="hljs-keyword">import</span> com.alibaba.fastjson.JSON;
+<span class="hljs-keyword">import</span> com.qujie.mintwo.config.WechatConfig;
+<span class="hljs-keyword">import</span> com.wechat.pay.contrib.apache.httpclient.Validator;
+<span class="hljs-keyword">import</span> com.wechat.pay.contrib.apache.httpclient.WechatPayHttpClientBuilder;
+<span class="hljs-keyword">import</span> com.wechat.pay.contrib.apache.httpclient.auth.*;
+<span class="hljs-keyword">import</span> com.wechat.pay.contrib.apache.httpclient.util.AesUtil;
+<span class="hljs-keyword">import</span> com.wechat.pay.contrib.apache.httpclient.util.PemUtil;
+<span class="hljs-keyword">import</span> org.apache.http.client.methods.CloseableHttpResponse;
+<span class="hljs-keyword">import</span> org.apache.http.client.methods.HttpGet;
+<span class="hljs-keyword">import</span> org.apache.http.client.methods.HttpUriRequest;
+<span class="hljs-keyword">import</span> org.apache.http.impl.client.CloseableHttpClient;
+<span class="hljs-keyword">import</span> org.apache.http.util.EntityUtils;
+<span class="hljs-keyword">import</span> org.slf4j.Logger;
+<span class="hljs-keyword">import</span> org.slf4j.LoggerFactory;
+<span class="hljs-keyword">import</span> org.springframework.stereotype.Component;
+
+<span class="hljs-keyword">import</span> javax.annotation.Resource;
+<span class="hljs-keyword">import</span> java.io.*;
+<span class="hljs-keyword">import</span> java.nio.charset.StandardCharsets;
+<span class="hljs-keyword">import</span> java.security.GeneralSecurityException;
+<span class="hljs-keyword">import</span> java.security.PrivateKey;
+<span class="hljs-keyword">import</span> java.security.cert.X509Certificate;
+<span class="hljs-keyword">import</span> java.util.ArrayList;
+<span class="hljs-keyword">import</span> java.util.Comparator;
+<span class="hljs-keyword">import</span> java.util.List;
+
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> org.apache.http.HttpHeaders.ACCEPT;
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> org.apache.http.HttpHeaders.CONTENT_TYPE;
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> org.apache.http.HttpStatus.SC_OK;
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> org.apache.http.entity.ContentType.APPLICATION_JSON;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@author</span> 夏天</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@version</span> 1.0</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@date</span> 2021/11/24</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@Component</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WechatPayApiUtil</span> </span>&#123;
+    <span class="hljs-keyword">private</span>  <span class="hljs-keyword">final</span> Logger logger = LoggerFactory.getLogger(WechatPayApiUtil.class);
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 参数配置</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@Resource</span>
+    <span class="hljs-keyword">private</span> WechatConfig wechatConfig;
+
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> CloseableHttpResponse <span class="hljs-title">v3Execution</span><span class="hljs-params">(HttpUriRequest request)</span> <span class="hljs-keyword">throws</span> IOException, GeneralSecurityException </span>&#123;
+        request.addHeader(CONTENT_TYPE, APPLICATION_JSON.toString());
+        request.addHeader(ACCEPT, APPLICATION_JSON.toString());
+        FileInputStream privateKey;
+        <span class="hljs-keyword">try</span> &#123;
+            privateKey = <span class="hljs-keyword">new</span> FileInputStream(<span class="hljs-string">&quot;D:\\apiClient_key.pem&quot;</span>);
+        &#125;<span class="hljs-keyword">catch</span> (FileNotFoundException e)&#123;
+            logger.error(<span class="hljs-string">&quot;微信支付接口调用所需的私钥文件不存在,路径【&#123;&#125;】&quot;</span>,wechatConfig.getPrivateKeyPath());
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> FileNotFoundException(<span class="hljs-string">&quot;微信支付接口调用所需的私钥文件不存在&quot;</span>);
+        &#125;
+        PrivateKey merChantPrivateKey = PemUtil.loadPrivateKey(privateKey);
+        List&lt;X509Certificate&gt; certs = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+        <span class="hljs-keyword">try</span> &#123;
+            FileInputStream certKey = <span class="hljs-keyword">new</span> FileInputStream(<span class="hljs-string">&quot;D:\\api\\apiClient_cert.pem&quot;</span>);
+            certs.add(PemUtil.loadCertificate(certKey));
+        &#125;<span class="hljs-keyword">catch</span> (FileNotFoundException e)&#123;
+            logger.error(<span class="hljs-string">&quot;微信支付接口调用所需的平台证书文件不存在,路径【&#123;&#125;】&quot;</span>,wechatConfig.getCertKeyPath());
+            certs = downloadCertificate();
+        &#125;
+        AutoUpdateCertificatesVerifier verifier = <span class="hljs-keyword">new</span> AutoUpdateCertificatesVerifier(
+                <span class="hljs-keyword">new</span> WechatPay2Credentials(wechatConfig.getMerchantId(), <span class="hljs-keyword">new</span> PrivateKeySigner(wechatConfig.getSerialNumber(), merChantPrivateKey)),
+                wechatConfig.getApiKey().getBytes(StandardCharsets.UTF_8));
+
+        WechatPayHttpClientBuilder builder = WechatPayHttpClientBuilder.create()
+                .withMerchant(wechatConfig.getMerchantId(),wechatConfig.getSerialNumber(),merChantPrivateKey).withValidator(<span class="hljs-keyword">new</span> WechatPay2Validator(verifier));
+        <span class="hljs-keyword">try</span> (CloseableHttpClient client = builder.build()) &#123;
+            CloseableHttpResponse response = client.execute(request);
+            <span class="hljs-keyword">int</span> statusCode = response.getStatusLine().getStatusCode();
+            String body = EntityUtils.toString(response.getEntity());
+            <span class="hljs-keyword">if</span> (SC_OK == statusCode) &#123;
+                logger.info(<span class="hljs-string">&quot;微信支付商家平台接口调用成功,接口响应信息：【&#123;&#125;】&quot;</span>,body);
+                <span class="hljs-keyword">if</span>(validate(response,certs))&#123;
+                    logger.info(<span class="hljs-string">&quot;微信支付商家平台响应信息验证签名成功&quot;</span>);
+                    <span class="hljs-keyword">return</span> response;
+                &#125;<span class="hljs-keyword">else</span> &#123;
+                    logger.error(<span class="hljs-string">&quot;微信支付商家平台响应信息验证签名失败&quot;</span>);
+                    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IOException(<span class="hljs-string">&quot;微信支付商家平台响应信息验证签名失败&quot;</span>);
+                &#125;
+            &#125;<span class="hljs-keyword">else</span> &#123;
+                logger.error(<span class="hljs-string">&quot;微信支付商家平台接口调用失败,错误码【&#123;&#125;】,错误信息【&#123;&#125;】&quot;</span>,statusCode,body);
+                <span class="hljs-keyword">return</span> response;
+            &#125;
+        &#125;
+    &#125;
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">validate</span><span class="hljs-params">(CloseableHttpResponse response,List&lt;X509Certificate&gt; x509Certs)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;
+        <span class="hljs-comment">//从下载的证书中，获取对报文签名的私钥所对应的证书，并进行验签来验证证书准确</span>
+        Verifier verifier = <span class="hljs-keyword">new</span> CertificatesVerifier(x509Certs);
+        Validator validator = <span class="hljs-keyword">new</span> WechatPay2Validator(verifier);
+        <span class="hljs-keyword">return</span>  validator.validate(response);
+    &#125;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;X509Certificate&gt; <span class="hljs-title">downloadCertificate</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException, GeneralSecurityException </span>&#123;
+        FileInputStream privateKey;
+        <span class="hljs-keyword">try</span> &#123;
+            privateKey = <span class="hljs-keyword">new</span> FileInputStream(<span class="hljs-string">&quot;D:\\apiClient_key.pem&quot;</span>);
+        &#125;<span class="hljs-keyword">catch</span> (FileNotFoundException e)&#123;
+            logger.error(<span class="hljs-string">&quot;微信支付接口调用所需的私钥文件路径【&#123;&#125;】不存在&quot;</span>,wechatConfig.getPrivateKeyPath());
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> FileNotFoundException(<span class="hljs-string">&quot;微信支付接口调用所需的私钥文件不存在&quot;</span>);
+        &#125;
+        PrivateKey merChantPrivateKey = PemUtil.loadPrivateKey(privateKey);
+        WechatPayHttpClientBuilder builder = WechatPayHttpClientBuilder.create()
+                .withMerchant(wechatConfig.getMerchantId(),wechatConfig.getSerialNumber(),merChantPrivateKey).withValidator(response -&gt; <span class="hljs-keyword">true</span>);
+        HttpGet httpGet = <span class="hljs-keyword">new</span> HttpGet(<span class="hljs-string">&quot;https://api.mch.weixin.qq.com/v3/certificates&quot;</span>);
+        httpGet.addHeader(ACCEPT, APPLICATION_JSON.toString());
+        <span class="hljs-keyword">try</span> (CloseableHttpClient client = builder.build()) &#123;
+            CloseableHttpResponse response = client.execute(httpGet);
+            <span class="hljs-keyword">int</span> statusCode = response.getStatusLine().getStatusCode();
+            String body = EntityUtils.toString(response.getEntity());
+            <span class="hljs-keyword">if</span> (SC_OK != statusCode) &#123;
+                logger.error(<span class="hljs-string">&quot;微信支付商家平台接口调用失败,接口响应码：【&#123;&#125;】,接口响应信息：【&#123;&#125;】&quot;</span>,statusCode,body);
+                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IOException(<span class="hljs-string">&quot;微信支付商家平台接口调用失败&quot;</span>);
+            &#125;
+            logger.info(<span class="hljs-string">&quot;微信支付平台证书获取成功,接口响应信息：【&#123;&#125;】&quot;</span>,body);
+            CertificateList certList = JSON.parseObject(body, CertificateList.class);
+            List&lt;X509Certificate&gt; x509Certs = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+            AesUtil aesUtil = <span class="hljs-keyword">new</span> AesUtil(wechatConfig.getApiKey().getBytes(StandardCharsets.UTF_8));
+            CertificateItem certificateItem = certList.getCerts().stream().max(Comparator.comparing(CertificateItem::getExpireTime)).orElse(<span class="hljs-keyword">null</span>);
+            <span class="hljs-keyword">if</span>(certificateItem == <span class="hljs-keyword">null</span>)&#123;
+                logger.error(<span class="hljs-string">&quot;微信支付获取平台证书接口响应信息获取证书为空&quot;</span>);
+                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IOException(<span class="hljs-string">&quot;微信支付获取平台证书接口响应信息获取证书为空&quot;</span>);
+            &#125;
+            String plainCertificate = aesUtil.decryptToString(certificateItem.getEncryptCertificate().getAssociatedData().getBytes(StandardCharsets.UTF_8),
+                    certificateItem.getEncryptCertificate().getNonce().getBytes(StandardCharsets.UTF_8),
+                    certificateItem.getEncryptCertificate().getCiphertext());
+            ByteArrayInputStream inputStream = <span class="hljs-keyword">new</span> ByteArrayInputStream(plainCertificate.getBytes(StandardCharsets.UTF_8));
+            X509Certificate x509Cert = PemUtil.loadCertificate(inputStream);
+            x509Certs.add(x509Cert);
+            <span class="hljs-comment">//从下载的证书中，获取对报文签名的私钥所对应的证书，并进行验签来验证证书准确</span>
+            <span class="hljs-keyword">boolean</span> isCorrectCert = validate(response,x509Certs);
+            logger.info(isCorrectCert ? <span class="hljs-string">&quot;=== validate success ===&quot;</span> : <span class="hljs-string">&quot;=== validate failed ===&quot;</span>);
+            <span class="hljs-keyword">if</span>(!isCorrectCert)&#123;
+                logger.error(<span class="hljs-string">&quot;微信支付平台证书响应结果验证失败&quot;</span>);
+                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IOException(<span class="hljs-string">&quot;微信支付平台证书响应结果验证失败&quot;</span>);
+            &#125;
+            File file = <span class="hljs-keyword">new</span> File(<span class="hljs-string">&quot;D:\\api&quot;</span>);
+            <span class="hljs-keyword">if</span>(!file.exists())&#123;
+                <span class="hljs-keyword">boolean</span> result = file.mkdirs();
+                logger.info(<span class="hljs-string">&quot;目录【&#123;&#125;】不存在需要创建目录，创建结果：【&#123;&#125;】&quot;</span>,file.getAbsolutePath(),result);
+            &#125;
+            String outputAbsoluteFilename = file.getAbsolutePath() + File.separator + <span class="hljs-string">&quot;apiClient_cert.pem&quot;</span>;
+            <span class="hljs-keyword">try</span> (BufferedWriter writer = <span class="hljs-keyword">new</span> BufferedWriter(
+                    <span class="hljs-keyword">new</span> OutputStreamWriter(<span class="hljs-keyword">new</span> FileOutputStream(outputAbsoluteFilename), StandardCharsets.UTF_8))) &#123;
+                writer.write(plainCertificate);
+            &#125;
+            logger.info(<span class="hljs-string">&quot;save cert file absolute path &#123;&#125; &quot;</span> , outputAbsoluteFilename);
+            <span class="hljs-keyword">return</span> x509Certs;
+        &#125;
+    &#125;
+
+&#125;
+</code></pre></div>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/11/30/Java%E8%8E%B7%E5%8F%96%E5%B8%B8%E8%A7%81%E7%9A%84%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Java获取常见的系统信息</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/11/22/Postman%E6%B1%89%E5%8C%96/">
+                        <span class="hidden-mobile">Postman汉化</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
